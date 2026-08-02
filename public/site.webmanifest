@@ -1,0 +1,13 @@
+{
+  "name": "ПодборVPS",
+  "short_name": "ПодборVPS",
+  "description": "Калькулятор подбора VPS и облачных серверов",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "theme_color": "#074EE8",
+  "background_color": "#F4F7FC",
+  "display": "standalone",
+  "lang": "ru"
+}
