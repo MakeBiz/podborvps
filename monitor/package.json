@@ -1,0 +1,13 @@
+{
+  "name": "podborvps-price-monitor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "collect": "node run.js",
+    "collect:one": "node run.js",
+    "status": "node -e \"const s=require('./data/status.json');console.table(s)\""
+  },
+  "dependencies": { "cheerio": "^1.0.0" },
+  "engines": { "node": ">=20" }
+}
