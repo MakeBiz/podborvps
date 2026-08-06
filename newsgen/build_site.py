@@ -58,6 +58,7 @@ sample = open(sample_path, encoding="utf-8").read()
 m_open = sample.find("<main")
 m_close = sample.find("</main>") + len("</main>")
 head_hdr = sample[:m_open]
+head_hdr = head_hdr.replace(', ecommerce:"dataLayer"', '')  # чистим рудимент ecommerce
 tail = sample[m_close:]
 
 # правим шапку <head> под каталог
@@ -118,9 +119,11 @@ xml = ['<?xml version="1.0" encoding="UTF-8"?>',
        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 def row(loc, lm, pr):
     return '  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>' % (loc, lm, pr)
-xml.append(row("https://www.podborvps.ru/", "2026-08-03", "1.0"))
+xml.append(row("https://www.podborvps.ru/", "2026-08-06", "1.0"))
 xml.append(row("https://www.podborvps.ru/news", max(n["iso"] for n in all_items), "0.9"))
 xml.append(row("https://www.podborvps.ru/akcii-promokody-vps", "2026-08-06", "0.8"))
+xml.append(row("https://www.podborvps.ru/privacy", "2026-08-06", "0.3"))
+xml.append(row("https://www.podborvps.ru/cookie", "2026-08-06", "0.3"))
 for n in all_items:  # закреплённые + лента (новее выше внутри ленты уже отсортировано)
     xml.append(row("https://www.podborvps.ru/news/" + n["slug"], n["iso"], "0.8"))
 xml.append("</urlset>")
