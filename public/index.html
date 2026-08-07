@@ -226,7 +226,7 @@ var PROVIDERS = [
 {id:'vpsorg',name:'VPS.org',color:'#B8341F',url:'https://vps.org/?ref=G2EMGEI2',geoLabel:'Глобально',desc:'Гибкие тарифы и щедрые условия, оплата картой. Универсальный вариант среднего сегмента.',geos:['global','us','eu'],pay:['foreign'],tasks:['site','bot','db','game','dev'],maxRam:64,priceRub:450,price:'от $5/мес',tags:['Гибкие тарифы','Глобально','Оплата картой']},
 {id:'ruvds',name:'RUVDS',color:'#1D4FD8',url:'https://ruvds.com/pr105060',geoLabel:'Россия, Европа, СНГ',desc:'Российский провайдер с широкой сетью Tier III дата-центров в России, СНГ и Европе. Аттестация по 152-ФЗ.',geos:['ru','eu'],pay:['rub','foreign'],tasks:['site','shop','1c','bot','db','game','dev','dedicated'],maxRam:128,priceRub:139,price:'от 139 ₽/мес',tags:['Россия','Оплата ₽','20+ Tier III ЦОД','Аттестация 152-ФЗ'],promos:[{b:'−15% по промокоду',code:'VFC-FTN-CSI',cond:''}]},
 {id:'firstvds',name:'FirstVDS',color:'#0369A1',url:'https://firstvds.ru/?from=1218803',geoLabel:'Россия, Европа',desc:'Российский VPS-провайдер с собственным дата-центром в Москве и локациями в Нидерландах и Казахстане. Для сайтов, 1С и типовых задач.',geos:['ru','eu'],pay:['rub','foreign'],tasks:['site','shop','1c','bot','db','dev'],maxRam:64,priceRub:299,price:'от 299 ₽/мес',tags:['Россия','Оплата ₽','Свой ЦОД в Москве','С 2002 года']},
-{id:'serverspace',name:'Serverspace',color:'#6D28D9',url:'https://serverspace.io/ref/907223?utm_source=podborvps&utm_medium=referral&utm_campaign=providers_list&utm_content=serverspace',noUtm:true,geoLabel:'Россия, Европа, США, ОАЭ',desc:'Российский облачный провайдер группы ITGLOBAL.COM: быстрое создание сервера, локации в РФ и за рубежом, почасовая оплата.',geos:['ru','eu','us','uae'],pay:['rub','foreign','crypto'],tasks:['site','shop','bot','db','ai','game','dev'],maxRam:128,priceRub:249,price:'от 249 ₽/мес',tags:['Россия и мир','Оплата ₽ и крипта','Почасовая оплата','152-ФЗ']},
+{id:'serverspace',name:'Serverspace',color:'#6D28D9',url:'https://serverspace.io/ref/907223',geoLabel:'Россия, Европа, США, ОАЭ',desc:'Российский облачный провайдер группы ITGLOBAL.COM: быстрое создание сервера, локации в РФ и за рубежом, почасовая оплата.',geos:['ru','eu','us','uae'],pay:['rub','foreign','crypto'],tasks:['site','shop','bot','db','ai','game','dev'],maxRam:128,priceRub:249,price:'от 249 ₽/мес',tags:['Россия и мир','Оплата ₽ и крипта','Почасовая оплата','152-ФЗ']},
 {id:'fornex',name:'Fornex',color:'#C2410C',url:'https://fornex.com/code/g6j9tn/',geoLabel:'Европа, США, Россия',desc:'Провайдер с русскоязычной поддержкой и серверами в Европе и США. Оплата картами МИР и криптовалютой.',geos:['eu','us','ru'],pay:['rub','foreign','crypto'],tasks:['site','shop','bot','db','dev','game'],maxRam:64,priceRub:497,price:'от 497 ₽/мес',tags:['Европа и США','Карты МИР и крипта','Русскоязычная поддержка'],promos:[{b:'−15% на VPS при регистрации по ссылке',code:'',cond:'скидка применяется при регистрации по нашей ссылке'}]},
 {id:'cloud4box',name:'Cloud4Box',color:'#0891B2',url:'https://cloud4box.com/?from=99102',geoLabel:'Россия и зарубежье',desc:'Российский провайдер с дата-центром в Москве и зарубежными локациями, гибкий конфигуратор VPS.',geos:['ru','eu','us'],pay:['rub','foreign'],tasks:['site','shop','bot','db','dev'],maxRam:64,priceRub:340,price:'от 340 ₽/мес',tags:['Россия','Оплата ₽','Свой ЦОД в Москве','Гибкий конфигуратор']},
 {id:'vdsina',name:'VDSina',color:'#4F46E5',url:'https://vdsina.ru/?partner=5xwp7v2732dp',geoLabel:'Россия, Европа',desc:'Российский провайдер с дата-центрами в Москве и Амстердаме. NVMe на AMD EPYC, почасовая оплата и недорогой вход. Оплата рублями и криптовалютой.',geos:['ru','eu'],pay:['rub','crypto'],tasks:['site','shop','bot','db','dev','game'],maxRam:128,priceRub:150,price:'от 150 ₽/мес',tags:['Россия и Европа','Оплата ₽ и крипта','NVMe на AMD EPYC','Почасовая оплата']}
@@ -260,8 +260,9 @@ var state = { task:null, ram:2, cpu:1, geo:'any', pay:null, budget:0, results:nu
 function goal(name, params){
 try { if (typeof window.ym !== 'undefined') window.ym(111248718, 'reachGoal', name, params || {}); } catch(e){}
 }
-function addUtm(url, campaign){
-var utm = 'utm_source=podborvps&utm_medium=referral&utm_campaign=' + (campaign || 'vps_landing');
+// Единая схема меток: utm_source=podborvps | utm_medium=ru (язык версии) | utm_campaign=<страница/блок> | utm_content=<слаг провайдера>
+function addUtm(url, campaign, slug){
+var utm = 'utm_source=podborvps&utm_medium=ru&utm_campaign=' + (campaign || 'site') + (slug ? '&utm_content=' + slug : '');
 var h = url.indexOf('#'), frag = '';
 if (h >= 0){ frag = url.slice(h); url = url.slice(0, h); }
 url += (url.indexOf('?') >= 0 ? '&' : '?') + utm;
@@ -328,21 +329,21 @@ cardBg: isTop ? 'linear-gradient(180deg,#FFFFFF,#FFFBF0)' : isFeat ? 'linear-gra
 cardBd: isTop ? '#EBB13C' : isFeat ? '#A9C6F8' : '#E4EAF2',
 cardSh: isTop ? 'inset 0 1px 0 #fff,0 2px 6px rgba(214,150,30,.14),0 24px 48px -20px rgba(214,150,30,.5)' : isFeat ? 'inset 0 1px 0 #fff,0 2px 4px rgba(3,35,95,.06),0 22px 44px -20px rgba(7,78,232,.55)'
            : 'inset 0 1px 0 #fff,0 1px 2px rgba(3,35,95,.04),0 18px 36px -22px rgba(3,35,95,.4)',
-link: p.noUtm ? p.url : addUtm(p.url, 'catalog'), logoBg:l.bg, logoSh:l.sh,
+link: p.noUtm ? p.url : addUtm(p.url, 'providers_list', p.id), logoBg:l.bg, logoSh:l.sh,
 track: function(){ goal('provider_click', { provider:p.id, place:'catalog' }); goal('go_' + p.id); } };
 });
 var results = (state.results || []).map(function(r, i){
 var p = r.p, top = (i < 3 && r.score >= 60), l = logoStyles(p.color); var rp0 = (p.promos && p.promos[0]) || null;
 return { rank:i+1, name:p.name, desc:p.desc, price:p.price, score:r.score, pct:r.score + '%',
 letter:p.name.charAt(0), top:top, badge: p.badge || '', topPick: p.topPick === true, promo: rp0 ? rp0.b : '', promoCode: rp0 ? (rp0.code || '') : '', matchTags:r.reasons, tags:p.tags.slice(0, 2),
-link: p.noUtm ? p.url : addUtm(p.url, 'calculator'), logoBg:l.bg, logoSh:l.sh,
+link: p.noUtm ? p.url : addUtm(p.url, 'calculator', p.id), logoBg:l.bg, logoSh:l.sh,
 cardBg: top ? 'linear-gradient(180deg,#FFFFFF,#F6F9FF)' : 'linear-gradient(180deg,#FFFFFF,#FBFCFE)',
 cardBd: top ? '#A9C6F8' : '#E4EAF2',
 cardSh: top ? 'inset 0 1px 0 #fff,0 2px 4px rgba(3,35,95,.06),0 26px 50px -24px rgba(7,78,232,.65)'
 : 'inset 0 1px 0 #fff,0 1px 2px rgba(3,35,95,.04),0 18px 36px -22px rgba(3,35,95,.4)',
 track: function(){ goal('provider_click', { provider:p.id, place:'calculator', position:i+1, score:r.score }); goal('go_' + p.id); } };
 });
-var PROMOS = []; PROVIDERS.forEach(function(p){ if(!p.promos) return; var l = logoStyles(p.color); p.promos.forEach(function(pr){ PROMOS.push({ provider:p.name, letter:p.name.charAt(0), logoBg:l.bg, logoSh:l.sh, benefit:pr.b, code:pr.code||'', hasCode: !!pr.code, cond:pr.cond||'', link: p.noUtm ? p.url : addUtm(p.url,'promo'), track: function(){ goal('provider_click',{provider:p.id,place:'promo'}); goal('go_'+p.id); goal('promo_click',{promo:p.id}); } }); }); });
+var PROMOS = []; PROVIDERS.forEach(function(p){ if(!p.promos) return; var l = logoStyles(p.color); p.promos.forEach(function(pr){ PROMOS.push({ provider:p.name, letter:p.name.charAt(0), logoBg:l.bg, logoSh:l.sh, benefit:pr.b, code:pr.code||'', hasCode: !!pr.code, cond:pr.cond||'', link: p.noUtm ? p.url : addUtm(p.url,'akcii', p.id), track: function(){ goal('provider_click',{provider:p.id,place:'promo'}); goal('go_'+p.id); goal('promo_click',{promo:p.id}); } }); }); });
 var hero = CFG.heroStyle;
 return {
 heroSplit: hero === 'split', heroMinimal: hero === 'minimal', heroFused: hero === 'fused',

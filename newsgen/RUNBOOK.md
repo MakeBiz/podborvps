@@ -28,9 +28,12 @@
    `<h2>/<p>` и нижний блок `.cta`. Вёрстку/стиль/шапку/подвал не менять. Слаг — латинская
    транслитерация темы. Раздела «Источники» на странице быть не должно. В `.cta` — реферальные
    кнопки Timeweb (`https://timeweb.cloud/?i=143675`) и/или AdminVPS
-   (`https://my.adminvps.ru/aff.php?aff=29622`) с `&utm_source=podborvps&utm_medium=referral&utm_campaign=news_<id>`,
-   `target="_blank" rel="sponsored nofollow noopener"` и целью Метрики `provider_click`, `place:news`.
-   Сохранить как `public/news/<slug>.html`.
+   (`https://my.adminvps.ru/aff.php?aff=29622`) с метками единой схемы:
+   `&utm_source=podborvps&utm_medium=ru&utm_campaign=news_<id статьи>&utm_content=<слаг провайдера>`
+   (напр. `...&utm_campaign=news_mincifry&utm_content=timeweb`). `utm_medium=ru` — язык версии,
+   `utm_campaign=news_<id>` — какая статья, `utm_content` — какой провайдер.
+   `target="_blank" rel="sponsored nofollow noopener"` и цель Метрики `provider_click`, `place:news`.
+   Сохранить как `public/news/<slug>.html`. Формат меток описан в `podborvps-reflinks.md`.
 4. **Манифест.** Добавить объект новости в массив **`feed`** в `newsgen/news.json`
    (не в `pinned`). `iso` задаёт порядок в ленте.
 5. **Сборка.** `python3 newsgen/build_site.py` — пересоберёт главную, `/news` и sitemap.
