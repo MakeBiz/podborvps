@@ -260,7 +260,49 @@ var CFG = { heroStyle:'split', show3d:true, showCookie:true, resultsCount:10, de
 var state = { task:null, ram:2, cpu:1, geo:'any', pay:null, budget:0, results:null, cookieSeen:true, modal:null, menu:false };
 function goal(name, params){
 try { if (typeof window.ym !== 'undefined') window.ym(111248718, 'reachGoal', name, params || {}); } catch(e){}
+try { if (name === 'provider_click' && typeof PV !== 'undefined') PV.click(params); } catch(e){}
 }
+// Своя анонимная аналитика: пишем визиты и клики по партнёрам в свою Google-таблицу (через Apps Script).
+// Личных данных нет — только случайный ID визитёра, метки (utm) и время. Пока ENDPOINT пустой — ничего
+// не отправляется, сайт работает как обычно. После деплоя Apps Script вставить сюда URL веб-приложения.
+var PV = (function(){
+var ENDPOINT = 'https://script.google.com/macros/s/AKfycbwWqiKl_d6PWGaHstCnskRJlG3xee7jEq6Y6gsAPGZeWWsOm_HuvMzx51rmE5K_8w05/exec';
+var TOKEN = 'pv_9f3k7m2q';         // лёгкий фильтр от случайного мусора (не секрет: виден в коде страницы)
+function ss(){ try { return window.sessionStorage; } catch(e){ return null; } }
+function ls(){ try { return window.localStorage; } catch(e){ return null; } }
+function get(s, k){ try { return s ? (s.getItem(k) || '') : ''; } catch(e){ return ''; } }
+function set(s, k, v){ try { if (s) s.setItem(k, v); } catch(e){} }
+function uuid(){
+try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch(e){}
+return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxx'.replace(/[xy]/g, function(c){ var r = Math.random()*16|0; return (c === 'x' ? r : (r&0x3|0x8)).toString(16); });
+}
+function qp(name){ try { var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(location.search); return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : ''; } catch(e){ return ''; } }
+var VID = get(ls(), 'pv_vid'); if (!VID){ VID = uuid(); set(ls(), 'pv_vid', VID); }
+var SID = get(ss(), 'pv_sid'); if (!SID){ SID = uuid(); set(ss(), 'pv_sid', SID); }
+var UTM = get(ss(), 'pv_utm');
+if (UTM){ try { UTM = JSON.parse(UTM); } catch(e){ UTM = null; } }
+if (!UTM){
+UTM = { us: qp('utm_source'), um: qp('utm_medium'), uc: qp('utm_campaign'), un: qp('utm_content'), ut: qp('utm_term') || get(ss(), 'pv_click') };
+set(ss(), 'pv_utm', JSON.stringify(UTM));
+set(ss(), 'pv_land', location.pathname + location.search);
+}
+var DEV = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent || '') ? 'm' : 'd';
+function send(p){
+if (!ENDPOINT) return;                                   // не настроено — молчим
+p.k = TOKEN; p.vid = VID; p.sid = SID; p.dev = DEV; p.ts = (new Date()).getTime();
+p.us = UTM.us; p.um = UTM.um; p.uc = UTM.uc; p.un = UTM.un; p.ut = UTM.ut;
+try {
+var body = JSON.stringify(p);
+if (navigator.sendBeacon) navigator.sendBeacon(ENDPOINT, body);
+else fetch(ENDPOINT, { method:'POST', body: body, keepalive:true, mode:'no-cors' });
+} catch(e){}
+}
+return {
+visit: function(){ if (get(ss(), 'pv_vseen')) return; set(ss(), 'pv_vseen', '1');
+send({ t:'visit', ref: (document.referrer || '').slice(0, 300), land: get(ss(), 'pv_land') || location.pathname }); },
+click: function(o){ o = o || {}; send({ t:'click', prov: o.provider || '', place: o.place || '', pos: o.position || '', score: o.score || '' }); }
+};
+})();
 // Сквозная аналитика: ловим идентификаторы клика Яндекс.Директа из адреса и прокидываем их
 // дальше в реферальную ссылку. Тогда в кабинете провайдера («точка захода») видно, какая
 // группа и какое объявление привели регистрацию. yclid НЕ прокидываем намеренно — он может
@@ -407,6 +449,7 @@ raf = requestAnimationFrame(tick);
 document.addEventListener('DOMContentLoaded', function(){
 tplEl = document.getElementById('tpl');
 rootEl = document.getElementById('root');
+try { PV.visit(); } catch(e){}
 window.addEventListener('scroll', function(){ var t=document.getElementById('totop'); if(t){ var v=window.pageYOffset>500; t.style.opacity=v?'1':'0'; t.style.pointerEvents=v?'auto':'none'; } }, { passive:true });
 var dt = CFG.defaultTask;
 if (dt){
