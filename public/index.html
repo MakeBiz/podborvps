@@ -261,9 +261,29 @@ var state = { task:null, ram:2, cpu:1, geo:'any', pay:null, budget:0, results:nu
 function goal(name, params){
 try { if (typeof window.ym !== 'undefined') window.ym(111248718, 'reachGoal', name, params || {}); } catch(e){}
 }
-// Единая схема меток: utm_source=podborvps | utm_medium=ru (язык версии) | utm_campaign=<страница/блок> | utm_content=<слаг провайдера>
+// Сквозная аналитика: ловим идентификаторы клика Яндекс.Директа из адреса и прокидываем их
+// дальше в реферальную ссылку. Тогда в кабинете провайдера («точка захода») видно, какая
+// группа и какое объявление привели регистрацию. yclid НЕ прокидываем намеренно — он может
+// перебить атрибуцию партнёрской ссылки на стороне провайдера.
+var CLICK = (function(){
+function q(name){
+try { var m = new RegExp('[?&]' + name + '=([^&#]*)').exec(location.search);
+return m ? decodeURIComponent(m[1].replace(/\+/g, ' ')) : ''; } catch(e){ return ''; }
+}
+var gid = q('gid'), aid = q('aid'), parts = [];
+if (gid) parts.push('g' + gid);
+if (aid) parts.push('a' + aid);
+var term = parts.join('-').replace(/[^A-Za-z0-9_\-]/g, '').slice(0, 40);
+try {
+if (term) sessionStorage.setItem('pv_click', term);           // запомнили на сессию
+else term = sessionStorage.getItem('pv_click') || '';          // восстановили после перехода по сайту
+} catch(e){}
+return term;
+})();
+// Единая схема меток: utm_source=podborvps | utm_medium=ru (язык версии) | utm_campaign=<страница/блок> | utm_content=<слаг провайдера> | utm_term=<группа-объявление Директа>
 function addUtm(url, campaign, slug){
 var utm = 'utm_source=podborvps&utm_medium=ru&utm_campaign=' + (campaign || 'site') + (slug ? '&utm_content=' + slug : '');
+if (CLICK) utm += '&utm_term=' + CLICK;
 var h = url.indexOf('#'), frag = '';
 if (h >= 0){ frag = url.slice(h); url = url.slice(0, h); }
 url += (url.indexOf('?') >= 0 ? '&' : '?') + utm;
