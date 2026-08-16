@@ -244,6 +244,12 @@ var PROVIDERS = [
 {id:'selectel',name:'Selectel',color:'#10B981',url:'https://selectel.ru/?ref_code=70588a178e',geoLabel:'Россия',desc:'Крупный российский облачный провайдер с собственными дата-центрами и высокой надёжностью. Облачные серверы, 152-ФЗ, оплата рублями.',geos:['ru'],pay:['rub'],tasks:['site','shop','1c','db','ai','dev','dedicated'],maxRam:128,priceRub:200,price:'от 200 ₽/мес',tags:['Россия','Оплата ₽','Свои ЦОД','152-ФЗ']},
 {id:'vpshouse',name:'VPS.house',color:'#475569',url:'https://vps.house/p357',geoLabel:'Россия, Европа',desc:'Небольшой российский VPS-провайдер с локациями в России и Нидерландах. Простой вход для сайтов и типовых задач.',geos:['ru','eu'],pay:['rub'],tasks:['site','bot','db','dev'],maxRam:32,priceRub:150,price:'от 150 ₽/мес',tags:['Россия и Европа','Оплата ₽','Простой вход']}
 ];
+var PRIORITY = ['timeweb', 'adminvps'];
+// Вес провайдера = выгодность оффера (payoutScore из аудита партнёров, шкала ~45–94).
+// demandFactor и strategicFit пока заморожены на 1.0 (мало данных); вводим их позже.
+// aeserver/ultahost занижены как предохранители: комиссия по VPS не подтверждена.
+var WEIGHTS = { timeweb:85, adminvps:89, ishosting:94, fornex:91, vdsina:89, vpsorg:88, truehost:85, aeza:84, datapacket:83, beget:80, cherryservers:80, massivegrid:78, ethernetservers:76, racknerd:76, serverspace:75, firstvds:73, vpsdime:73, rosehosting:72, profitserver:71, selectel:71, ruvds:70, hostman:68, vpshouse:66, cloud4box:64, regru:62, aeserver:45, ultahost:45 };
+PROVIDERS.forEach(function(p){ p.weight = (WEIGHTS[p.id] != null ? WEIGHTS[p.id] : 60); });
 var TASKS = [
 {id:'site',ic:'🌐',name:'Сайт или блог',ram:2,cpu:1},
 {id:'shop',ic:'🛒',name:'Интернет-магазин',ram:4,cpu:2},
@@ -366,14 +372,17 @@ function runCalc(){
 var limit = CFG.resultsCount || 9;
 // приоритетные партнёры: поднимаем наверх, но только если провайдер реально подходит.
 // иначе калькулятор выдавал бы, например, российский хостинг на запрос про ОАЭ и терял доверие
-var PRIORITY = ['timeweb', 'adminvps'];
 var FIT = 50;
+var WEIGHT_INFLUENCE = 0.35; // вклад веса оффера в порядок при близком соответствии; demand/fit пока = 1.0
 var ranked = PROVIDERS.map(function(p){ var r = score(p); return { p:p, score:r.score, reasons:r.reasons }; })
 .sort(function(a, b){
 var ap = PRIORITY.indexOf(a.p.id) >= 0 && a.score >= FIT ? PRIORITY.indexOf(a.p.id) : 99;
 var bp = PRIORITY.indexOf(b.p.id) >= 0 && b.score >= FIT ? PRIORITY.indexOf(b.p.id) : 99;
 if (ap !== bp) return ap - bp;
-return b.score - a.score;
+// релевантность решает, вес доводит порядок среди близких по соответствию
+var aRank = a.score + WEIGHT_INFLUENCE * ((a.p.weight || 60) - 60);
+var bRank = b.score + WEIGHT_INFLUENCE * ((b.p.weight || 60) - 60);
+return bRank - aRank;
 }).slice(0, limit);
 setState({ results: ranked });
 goal('calc_result', { task: state.task || 'none', ram: state.ram, cpu: state.cpu, geo: state.geo || 'any', budget: state.budget || 0, count: ranked.length });
@@ -393,13 +402,20 @@ pick: function(){ var o = {}; o[key] = it.id; if (extra) extra(it, o); setState(
 });
 }
 function buildVals(){
-var providers = PROVIDERS.map(function(p){
+var CATALOG = PROVIDERS.slice().sort(function(a, b){
+var aP = PRIORITY.indexOf(a.id) >= 0 ? PRIORITY.indexOf(a.id) : 99;
+var bP = PRIORITY.indexOf(b.id) >= 0 ? PRIORITY.indexOf(b.id) : 99;
+if (aP !== bP) return aP - bP;
+return (b.weight || 0) - (a.weight || 0);
+});
+var recId = null; for (var ri = 0; ri < CATALOG.length; ri++){ if (PRIORITY.indexOf(CATALOG[ri].id) < 0){ recId = CATALOG[ri].id; break; } }
+var providers = CATALOG.map(function(p){
 var l = logoStyles(p.color);
-var isTop = p.topPick === true; var isFeat = p.featured === true; var ft = isFeat || isTop; var pr0 = (p.promos && p.promos[0]) || null;
+var isTop = p.topPick === true; var isRec = p.id === recId; var isFeat = p.featured === true || isRec; var ft = isFeat || isTop; var pr0 = (p.promos && p.promos[0]) || null;
 return { name:p.name, geoLabel:p.geoLabel, desc:p.desc, tags:p.tags, price:p.price, letter:p.name.charAt(0),
 badge: p.badge || '', featured: ft, promo: pr0 ? pr0.b : '', promoCode: pr0 ? (pr0.code || '') : '', promoCond: pr0 ? (pr0.cond || '') : '', promoMore: (p.promos ? p.promos.length - 1 : 0),
 ribbonBg: isTop ? 'linear-gradient(180deg,#F6C750,#DE9526)' : 'linear-gradient(180deg,#3D85FF,#0A47CC)',
-ribbonText: isTop ? ('★ Наш выбор' + (p.badge ? ' · ' + p.badge : '')) : ('★ ' + (p.badge || '')),
+ribbonText: isTop ? ('★ Наш выбор' + (p.badge ? ' · ' + p.badge : '')) : (isRec && !p.featured ? '★ Рекомендуем' : ('★ ' + (p.badge || ''))),
 cardBg: isTop ? 'linear-gradient(180deg,#FFFFFF,#FFFBF0)' : isFeat ? 'linear-gradient(180deg,#FFFFFF,#F4F8FF)' : 'linear-gradient(180deg,#FFFFFF,#FBFCFE)',
 cardBd: isTop ? '#EBB13C' : isFeat ? '#A9C6F8' : '#E4EAF2',
 cardSh: isTop ? 'inset 0 1px 0 #fff,0 2px 6px rgba(214,150,30,.14),0 24px 48px -20px rgba(214,150,30,.5)' : isFeat ? 'inset 0 1px 0 #fff,0 2px 4px rgba(3,35,95,.06),0 22px 44px -20px rgba(7,78,232,.55)'
