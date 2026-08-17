@@ -432,7 +432,7 @@ cardBg: top ? 'linear-gradient(180deg,#FFFFFF,#F6F9FF)' : 'linear-gradient(180de
 cardBd: top ? '#A9C6F8' : '#E4EAF2',
 cardSh: top ? 'inset 0 1px 0 #fff,0 2px 4px rgba(3,35,95,.06),0 26px 50px -24px rgba(7,78,232,.65)'
 : 'inset 0 1px 0 #fff,0 1px 2px rgba(3,35,95,.04),0 18px 36px -22px rgba(3,35,95,.4)',
-track: function(){ goal('provider_click', { provider:p.id, place:'calculator', position:i+1, score:r.score }); goal('go_' + p.id); } };
+track: function(){ goal('provider_click', { provider:p.id, place:'calculator', position:i+1, score:r.score }); goal('go_' + p.id); goal('calc_click', { provider:p.id, position:i+1, score:r.score }); } };
 });
 var PROMOS = []; PROVIDERS.forEach(function(p){ if(!p.promos) return; var l = logoStyles(p.color); p.promos.forEach(function(pr){ PROMOS.push({ provider:p.name, letter:p.name.charAt(0), logoBg:l.bg, logoSh:l.sh, benefit:pr.b, code:pr.code||'', hasCode: !!pr.code, cond:pr.cond||'', link: p.noUtm ? p.url : addUtm(p.url,'akcii', p.id), track: function(){ goal('provider_click',{provider:p.id,place:'promo'}); goal('go_'+p.id); goal('promo_click',{promo:p.id}); } }); }); });
 var hero = CFG.heroStyle;
