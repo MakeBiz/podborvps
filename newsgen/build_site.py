@@ -66,10 +66,10 @@ CAT_TITLE = "Новости и обзоры о VPS и хостинге"
 CAT_DESC = "Новости рынка VPS, хостинга и дата-центров: цены, локации, регулирование и что это значит для выбора сервера. Разборы редакции ПодборVPS со ссылкой на первоисточник."
 head_hdr = re.sub(r"<title>.*?</title>", "<title>%s — ПодборVPS</title>" % esc(CAT_TITLE), head_hdr, flags=re.S)
 head_hdr = re.sub(r'<meta name="description" content=".*?">', '<meta name="description" content="%s">' % esc(CAT_DESC), head_hdr, flags=re.S)
-head_hdr = re.sub(r'<link rel="canonical" href=".*?">', '<link rel="canonical" href="https://www.podborvps.ru/news">', head_hdr, flags=re.S)
+head_hdr = re.sub(r'<link rel="canonical" href=".*?">', '<link rel="canonical" href="https://podborvps.ru/news">', head_hdr, flags=re.S)
 head_hdr = re.sub(r'<meta property="og:title" content=".*?">', '<meta property="og:title" content="%s">' % esc(CAT_TITLE), head_hdr, flags=re.S)
 head_hdr = re.sub(r'<meta property="og:description" content=".*?">', '<meta property="og:description" content="%s">' % esc(CAT_DESC), head_hdr, flags=re.S)
-head_hdr = re.sub(r'<meta property="og:url" content=".*?">', '<meta property="og:url" content="https://www.podborvps.ru/news">', head_hdr, flags=re.S)
+head_hdr = re.sub(r'<meta property="og:url" content=".*?">', '<meta property="og:url" content="https://podborvps.ru/news">', head_hdr, flags=re.S)
 head_hdr = re.sub(r'<meta property="og:type" content=".*?">', '<meta property="og:type" content="website">', head_hdr, flags=re.S)
 head_hdr = re.sub(r'\s*<meta property="article:published_time" content=".*?">', '', head_hdr, flags=re.S)
 
@@ -78,11 +78,11 @@ ld = json.dumps({
     "@type": "CollectionPage",
     "name": CAT_TITLE,
     "description": CAT_DESC,
-    "url": "https://www.podborvps.ru/news",
+    "url": "https://podborvps.ru/news",
     "inLanguage": "ru-RU",
-    "isPartOf": {"@type": "WebSite", "name": "ПодборVPS", "url": "https://www.podborvps.ru/"},
+    "isPartOf": {"@type": "WebSite", "name": "ПодборVPS", "url": "https://podborvps.ru/"},
     "hasPart": [{"@type": "NewsArticle", "headline": n["title"],
-                 "url": "https://www.podborvps.ru/news/" + n["slug"],
+                 "url": "https://podborvps.ru/news/" + n["slug"],
                  "datePublished": n["iso"]} for n in all_items],
 }, ensure_ascii=False)
 head_hdr = re.sub(r'<script type="application/ld\+json">.*?</script>',
@@ -113,19 +113,19 @@ main = (
 open(os.path.join(PUB, "news.html"), "w", encoding="utf-8").write(head_hdr + main + tail)
 
 # ---------- 3. sitemap ----------
-rows = [("https://www.podborvps.ru/", "1.0"), ("https://www.podborvps.ru/news", "0.9")]
-DATES = {"https://www.podborvps.ru/": "2026-08-03", "https://www.podborvps.ru/news": max(n["iso"] for n in all_items)}
+rows = [("https://podborvps.ru/", "1.0"), ("https://podborvps.ru/news", "0.9")]
+DATES = {"https://podborvps.ru/": "2026-08-03", "https://podborvps.ru/news": max(n["iso"] for n in all_items)}
 xml = ['<?xml version="1.0" encoding="UTF-8"?>',
        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 def row(loc, lm, pr):
     return '  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>' % (loc, lm, pr)
-xml.append(row("https://www.podborvps.ru/", "2026-08-06", "1.0"))
-xml.append(row("https://www.podborvps.ru/news", max(n["iso"] for n in all_items), "0.9"))
-xml.append(row("https://www.podborvps.ru/akcii-promokody-vps", "2026-08-06", "0.8"))
-xml.append(row("https://www.podborvps.ru/privacy", "2026-08-06", "0.3"))
-xml.append(row("https://www.podborvps.ru/cookie", "2026-08-06", "0.3"))
+xml.append(row("https://podborvps.ru/", "2026-08-06", "1.0"))
+xml.append(row("https://podborvps.ru/news", max(n["iso"] for n in all_items), "0.9"))
+xml.append(row("https://podborvps.ru/akcii-promokody-vps", "2026-08-06", "0.8"))
+xml.append(row("https://podborvps.ru/privacy", "2026-08-06", "0.3"))
+xml.append(row("https://podborvps.ru/cookie", "2026-08-06", "0.3"))
 for n in all_items:  # закреплённые + лента (новее выше внутри ленты уже отсортировано)
-    xml.append(row("https://www.podborvps.ru/news/" + n["slug"], n["iso"], "0.8"))
+    xml.append(row("https://podborvps.ru/news/" + n["slug"], n["iso"], "0.8"))
 xml.append("</urlset>")
 open(os.path.join(PUB, "sitemap.xml"), "w", encoding="utf-8").write("\n".join(xml) + "\n")
 
