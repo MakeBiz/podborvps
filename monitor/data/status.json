@@ -1,1 +1,105 @@
-{}
+{
+  "vdsina": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "нет VDSINA_TOKEN"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "timeweb": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "нет TIMEWEB_TOKEN"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "regru": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "нет REGRU_CLOUDVPS_TOKEN"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "ruvds": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "нет RUVDS_KEY"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "hostman": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "нет HOSTMAN_TOKEN"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "datapacket": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "нет DATAPACKET_TOKEN"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "adminvps": {
+    "ok": true,
+    "lastOk": "2026-08-22",
+    "problems": [],
+    "checkedAt": "2026-08-22",
+    "count": 56
+  },
+  "beget": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "источник вернул ноль тарифов"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "truehost": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "HTTP 403 на https://truehost.com/vps-hosting/"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "ultahost": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "HTTP 403 на https://ultahost.com/vps-hosting"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "aeserver": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "источник вернул ноль тарифов"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "firstvds": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "HTTP 404 на https://firstvds.ru/products/vds-vps"
+    ],
+    "checkedAt": "2026-08-22"
+  },
+  "ishosting": {
+    "ok": false,
+    "lastOk": null,
+    "problems": [
+      "HTTP 403 на https://ishosting.com/en/vps"
+    ],
+    "checkedAt": "2026-08-22"
+  }
+}
