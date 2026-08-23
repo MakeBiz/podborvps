@@ -5,7 +5,7 @@
     "problems": [
       "нет VDSINA_TOKEN"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "timeweb": {
     "ok": false,
@@ -13,7 +13,7 @@
     "problems": [
       "нет TIMEWEB_TOKEN"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "regru": {
     "ok": false,
@@ -21,7 +21,7 @@
     "problems": [
       "нет REGRU_CLOUDVPS_TOKEN"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "ruvds": {
     "ok": false,
@@ -29,7 +29,7 @@
     "problems": [
       "нет RUVDS_KEY"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "hostman": {
     "ok": false,
@@ -37,7 +37,7 @@
     "problems": [
       "нет HOSTMAN_TOKEN"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "datapacket": {
     "ok": false,
@@ -45,13 +45,13 @@
     "problems": [
       "нет DATAPACKET_TOKEN"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "adminvps": {
     "ok": true,
-    "lastOk": "2026-08-22",
+    "lastOk": "2026-08-23",
     "problems": [],
-    "checkedAt": "2026-08-22",
+    "checkedAt": "2026-08-23",
     "count": 56
   },
   "beget": {
@@ -60,7 +60,7 @@
     "problems": [
       "источник вернул ноль тарифов"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "truehost": {
     "ok": false,
@@ -68,7 +68,7 @@
     "problems": [
       "HTTP 403 на https://truehost.com/vps-hosting/"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "ultahost": {
     "ok": false,
@@ -76,7 +76,7 @@
     "problems": [
       "HTTP 403 на https://ultahost.com/vps-hosting"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "aeserver": {
     "ok": false,
@@ -84,7 +84,7 @@
     "problems": [
       "источник вернул ноль тарифов"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "firstvds": {
     "ok": false,
@@ -92,7 +92,7 @@
     "problems": [
       "HTTP 404 на https://firstvds.ru/products/vds-vps"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   },
   "ishosting": {
     "ok": false,
@@ -100,6 +100,6 @@
     "problems": [
       "HTTP 403 на https://ishosting.com/en/vps"
     ],
-    "checkedAt": "2026-08-22"
+    "checkedAt": "2026-08-23"
   }
 }
