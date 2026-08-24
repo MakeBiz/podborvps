@@ -24,6 +24,22 @@
   "kind": "geo"
  },
  {
+  "slug": "vps-rossiya",
+  "kind": "geo"
+ },
+ {
+  "slug": "vps-evropa",
+  "kind": "geo"
+ },
+ {
+  "slug": "vps-finlyandiya",
+  "kind": "geo"
+ },
+ {
+  "slug": "vps-ssha",
+  "kind": "geo"
+ },
+ {
   "slug": "vps-dlya-vpn",
   "kind": "uc"
  },
