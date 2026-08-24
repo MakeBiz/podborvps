@@ -1,0 +1,28 @@
+# ПодборВПС (podborvps.ru)
+
+Независимый калькулятор и каталог VPS: подбираем виртуальный сервер под задачу по ресурсам, географии и бюджету; сравниваем российских и зарубежных провайдеров. Проект команды MakeBiz. Партнёрские ссылки не влияют на порядок подбора — критерии открыты.
+
+## Основное
+- Калькулятор подбора VPS: https://podborvps.ru/#calc
+- Методология подбора: https://podborvps.ru/metodologiya/
+- О проекте: https://podborvps.ru/o-proekte/
+- Новости рынка VPS: https://podborvps.ru/news/
+
+## Подборки по задачам
+- VPS для VPN: https://podborvps.ru/vps-dlya-vpn/
+- VPS под телеграм-бота: https://podborvps.ru/vps-dlya-telegram-bota/
+- Дешёвый VPS: https://podborvps.ru/deshevyy-vps/
+- VPS для Docker: https://podborvps.ru/vps-dlya-docker/
+- VPS для 1С и Битрикс: https://podborvps.ru/vps-dlya-1c-bitrix/
+- VPS для игрового сервера: https://podborvps.ru/vps-dlya-igrovogo-servera/
+- VPS для базы данных: https://podborvps.ru/vps-dlya-bazy-dannyh/
+- VPS для интернет-магазина: https://podborvps.ru/vps-dlya-internet-magazina/
+- VPS для AI и ML: https://podborvps.ru/vps-dlya-ai-ml/
+
+## Подборки по странам
+- VPS в Нидерландах: https://podborvps.ru/vps-niderlandy/
+- VPS в Великобритании: https://podborvps.ru/vps-velikobritaniya/
+- VPS в Германии: https://podborvps.ru/vps-germaniya/
+- VPS в Сингапуре: https://podborvps.ru/vps-singapur/
+- VPS в Турции: https://podborvps.ru/vps-turciya/
+- VPS в Казахстане: https://podborvps.ru/vps-kazahstan/

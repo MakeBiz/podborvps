@@ -190,6 +190,9 @@ def build_page(e):
     body+='<h2>Частые вопросы</h2>'
     for q,a in e["faq"]:
         body+='<h2 style="font-size:18px;margin:20px 0 6px">%s</h2><p>%s</p>'%(html.escape(q),html.escape(a))
+    _idx=next(i for i,x in enumerate(ENTITIES) if x["slug"]==e["slug"])
+    _rel=(ENTITIES[_idx+1:]+ENTITIES[:_idx])[:5]
+    body+='<h2>Смотрите также</h2><div style="display:flex;flex-wrap:wrap;gap:9px;margin:2px 0 6px">'+''.join('<a href="/%s/" style="display:inline-block;font-size:14px;color:#013CA4;background:#EAF1FE;border:1px solid #D8E3F6;padding:8px 14px;border-radius:11px;text-decoration:none">%s</a>'%(x["slug"],html.escape(x["title"])) for x in _rel)+'</div>'
     body+=('<div class="card alt"><h2>Подобрать сервер под задачу</h2>'
       '<p style="margin:0 0 18px">Задайте ресурсы, географию и бюджет — калькулятор отсортирует провайдеров под вашу задачу.</p>'
       '<a class="btn ghost" href="/#calc">Открыть калькулятор →</a></div></article>')
@@ -223,5 +226,19 @@ else:
     s=s.replace(FOOT, block+FOOT, 1)
 wr(ip,s)
 
+# llms.txt — визитка сайта для AI-краулеров (GEO)
+def _llm(items):
+    return "\n".join("- %s: https://podborvps.ru/%s/"%(e["title"],e["slug"]) for e in items)
+llms=("# ПодборВПС (podborvps.ru)\n\n"
+ "Независимый калькулятор и каталог VPS: подбираем виртуальный сервер под задачу по ресурсам, географии и бюджету; сравниваем российских и зарубежных провайдеров. Проект команды MakeBiz. Партнёрские ссылки не влияют на порядок подбора — критерии открыты.\n\n"
+ "## Основное\n"
+ "- Калькулятор подбора VPS: https://podborvps.ru/#calc\n"
+ "- Методология подбора: https://podborvps.ru/metodologiya/\n"
+ "- О проекте: https://podborvps.ru/o-proekte/\n"
+ "- Новости рынка VPS: https://podborvps.ru/news/\n\n"
+ "## Подборки по задачам\n"+_llm(ucs)+"\n\n"
+ "## Подборки по странам\n"+_llm(geos)+"\n")
+wr(os.path.join(PUB,"llms.txt"),llms)
+print("llms.txt: обновлён")
 print("entity-страниц: %d (гео %d, задач %d)"%(len(ENTITIES),len(geos),len(ucs)))
 print("блок «Популярные подборки» на главной: обновлён")
