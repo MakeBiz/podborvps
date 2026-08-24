@@ -127,6 +127,11 @@ xml.append(row("https://podborvps.ru/cookie/", "2026-08-06", "0.3"))
 xml.append(row("https://podborvps.ru/o-proekte/", "2026-08-24", "0.5"))
 xml.append(row("https://podborvps.ru/metodologiya/", "2026-08-24", "0.5"))
 xml.append(row("https://podborvps.ru/redakciya/", "2026-08-24", "0.4"))
+# entity-страницы (гео + задачи), если есть
+_ep=os.path.join(ROOT,"entitygen","entities_index.json")
+if os.path.exists(_ep):
+    for _e in json.load(open(_ep,encoding="utf-8")):
+        xml.append(row("https://podborvps.ru/%s/"%_e["slug"], "2026-08-24", "0.7" if _e["kind"]=="geo" else "0.6"))
 for n in all_items:  # закреплённые + лента (новее выше внутри ленты уже отсортировано)
     xml.append(row("https://podborvps.ru/news/" + n["slug"] + "/", n["iso"], "0.8"))
 xml.append("</urlset>")

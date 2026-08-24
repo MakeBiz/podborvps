@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VPS для Docker — ПодборVPS</title>
+<meta name="description" content="VPS для Docker и контейнеров: какая виртуализация и ресурсы нужны, почему важен KVM и NVMe — подбор сервера в калькуляторе ПодборVPS.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://podborvps.ru/vps-dlya-docker/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VPS для Docker">
+<meta property="og:description" content="VPS для Docker и контейнеров: какая виртуализация и ресурсы нужны, почему важен KVM и NVMe — подбор сервера в калькуляторе ПодборVPS.">
+<meta property="og:url" content="https://podborvps.ru/vps-dlya-docker/">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#074EE8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&family=Onest:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "name": "VPS для Docker", "description": "VPS для Docker и контейнеров: какая виртуализация и ресурсы нужны, почему важен KVM и NVMe — подбор сервера в калькуляторе ПодборVPS.", "url": "https://podborvps.ru/vps-dlya-docker/", "inLanguage": "ru-RU", "isPartOf": {"@type": "WebSite", "name": "ПодборVPS", "url": "https://podborvps.ru/"}, "publisher": {"@type": "Organization", "name": "ПодборVPS", "url": "https://podborvps.ru/"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://podborvps.ru/"}, {"@type": "ListItem", "position": 2, "name": "VPS для Docker", "item": "https://podborvps.ru/vps-dlya-docker/"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Почему для Docker нужен KVM?", "acceptedAnswer": {"@type": "Answer", "text": "На KVM у вас своё ядро и полноценная поддержка контейнеров. OpenVZ часто ограничивает Docker."}}, {"@type": "Question", "name": "Сколько ресурсов заложить?", "acceptedAnswer": {"@type": "Answer", "text": "От 2 ядер и 2–4 ГБ; под несколько контейнеров — больше. Обязательно NVMe-диск."}}]}]}</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111248718', 'ym');
+    ym(111248718, 'init', {ssr:true, webvisor:true, clickmap:true, referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111248718" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:'Golos Text',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#03235F;background:#F4F7FC;-webkit-font-smoothing:antialiased;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;z-index:50;background:rgba(244,247,252,.72);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid rgba(3,35,95,.08);box-shadow:0 1px 0 rgba(255,255,255,.8) inset}
+.hrow{max-width:1180px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;min-height:70px}
+.logo{display:flex;align-items:center;gap:9px;font-family:'Onest',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.6px;color:#03235F}
+.logo span.b{color:#fff;padding:3px 10px;border-radius:11px;background:linear-gradient(180deg,#3D85FF,#0A47CC);border:1px solid #0B44B8;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 4px 12px -3px rgba(7,78,232,.6)}
+.hnav{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hnav a{font-size:14px;padding:8px 13px;border-radius:11px;color:#4E5F7C;transition:.16s}
+.hnav a:hover{background:#E9F0FD;color:#013CA4}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:'Onest',sans-serif;font-weight:700;font-size:14.5px;line-height:1;color:#fff;padding:13px 22px;border-radius:13px;border:1px solid #0B44B8;background:linear-gradient(180deg,#3D85FF 0%,#0F58EC 48%,#0A47CC 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),inset 0 -1px 0 rgba(0,0,0,.22),0 8px 18px -6px rgba(7,78,232,.55);transition:.16s;cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.crumbs{font-size:13px;color:#8290A8;padding:26px 0 0}
+.crumbs a:hover{color:#013CA4;text-decoration:underline}
+article{padding:14px 0 10px}
+.kicker{display:inline-flex;align-items:center;gap:10px;margin:0 0 16px}
+.tag{font-size:11.5px;font-weight:700;letter-spacing:.3px;color:#fff;padding:5px 11px;border-radius:9px;background:linear-gradient(180deg,#3D85FF,#0A47CC);box-shadow:inset 0 1px 0 rgba(255,255,255,.4),0 5px 12px -4px rgba(7,78,232,.55)}
+.date{font-size:13px;color:#8290A8}
+h1{font-family:'Onest',sans-serif;font-size:36px;font-weight:800;letter-spacing:-1.1px;line-height:1.14;margin:0 0 18px;text-wrap:balance}
+.lead{font-size:18px;color:#3A4C6D;margin:0 0 30px;text-wrap:pretty}
+h2{font-family:'Onest',sans-serif;font-size:21px;font-weight:700;letter-spacing:-.5px;color:#013CA4;margin:34px 0 12px;text-wrap:balance}
+p{font-size:16px;color:#3A4C6D;margin:0 0 14px;text-wrap:pretty}
+.card{background:linear-gradient(180deg,#FFFFFF,#FBFCFE);border:1px solid #E4EAF2;border-radius:24px;padding:26px 28px;box-shadow:inset 0 1px 0 #fff,0 18px 36px -22px rgba(3,35,95,.4);margin:30px 0}
+.card h2{margin-top:0}
+.src{margin:0;padding:0;list-style:none}
+.src li{padding:11px 0;border-top:1px solid #E9EDF4;font-size:14.5px;color:#4E5F7C}
+.src li:first-child{border-top:0}
+.src a{color:#0F58EC;font-weight:600}
+.src a:hover{text-decoration:underline}
+.src .m{color:#8290A8;font-size:13px}
+.cta{background:linear-gradient(160deg,#0A2A6B,#03235F);border-radius:26px;padding:30px 30px 32px;margin:38px 0 0;color:#fff;box-shadow:0 26px 50px -26px rgba(3,35,95,.7)}
+.cta h2{color:#fff;margin:0 0 8px;font-size:22px}
+.cta p{color:#B6C7E6;margin:0 0 20px;font-size:15px}
+.ctabtns{display:flex;gap:12px;flex-wrap:wrap}
+.ctanote{font-size:12.5px;color:#7F97C4;margin:18px 0 0}
+.btn .n{font-weight:500;opacity:.72;font-size:13px}
+.card.alt{margin-top:20px}
+.btn.ghost{background:linear-gradient(180deg,#FFFFFF,#F2F6FD);color:#013CA4;border:1px solid #D8E3F6;box-shadow:inset 0 1px 0 #fff,0 6px 14px -8px rgba(3,35,95,.35)}
+footer{background:linear-gradient(180deg,#FFFFFF,#F7F9FC);border-top:1px solid #E4EAF2;margin-top:46px;padding:34px 0 32px;box-shadow:inset 0 1px 0 #fff}
+.fnav{display:flex;gap:20px;flex-wrap:wrap;font-size:14px;color:#4E5F7C}
+.fnav a:hover{color:#013CA4}
+.disc{font-size:12.5px;color:#8290A8;margin:22px 0 0;padding-top:20px;border-top:1px solid #E9EDF4;line-height:1.65;text-wrap:pretty}
+@media(max-width:640px){h1{font-size:27px;letter-spacing:-.7px}.lead{font-size:16.5px}.card{padding:22px 20px;border-radius:20px}.cta{padding:24px 22px}}
+</style>
+<script defer src="/px/t.js" data-site="podborvps"></script>
+</head>
+<body>
+<header><div class="hrow">
+<a class="logo" href="/"><span>Подбор</span><span class="b">VPS</span></a>
+<nav class="hnav"><a href="/#calc">Калькулятор</a><a href="/#providers">Провайдеры</a><a href="/#how">Как работает</a><a href="/news/">Новости</a></nav>
+</div></header>
+<main class="wrap"><div class="crumbs"><a href="/">Главная</a> → VPS для Docker</div><article><div class="kicker"><span class="tag">Задача</span></div><h1>VPS для Docker</h1><p class="lead">Docker на VPS удобен для изолированного запуска сервисов, но контейнеры требовательнее к ресурсам и типу виртуализации, чем простой сайт.</p><p>Для комфортной работы с Docker берите от 2 ядер и 2–4 ГБ оперативной памяти, а лучше больше, если контейнеров несколько. Диск — NVMe: сборка образов и запись слоёв активно нагружают диск.</p><p>Важна виртуализация KVM, а не OpenVZ: на KVM своё ядро и полноценная поддержка Docker без ограничений. Перед заказом убедитесь, что у провайдера именно KVM.</p><div class="card"><h2>Рекомендуемая конфигурация</h2><p style="margin:0">2+ ядра CPU, 2–4 ГБ+ RAM, NVMe-диск, виртуализация KVM (не OpenVZ).</p></div><h2>Частые вопросы</h2><h2 style="font-size:18px;margin:20px 0 6px">Почему для Docker нужен KVM?</h2><p>На KVM у вас своё ядро и полноценная поддержка контейнеров. OpenVZ часто ограничивает Docker.</p><h2 style="font-size:18px;margin:20px 0 6px">Сколько ресурсов заложить?</h2><p>От 2 ядер и 2–4 ГБ; под несколько контейнеров — больше. Обязательно NVMe-диск.</p><div class="card alt"><h2>Подобрать сервер под задачу</h2><p style="margin:0 0 18px">Задайте ресурсы, географию и бюджет — калькулятор отсортирует провайдеров под вашу задачу.</p><a class="btn ghost" href="/#calc">Открыть калькулятор →</a></div></article></main>
+<footer><div class="wrap" style="max-width:1180px"><div class="fnav"><a href="/">Главная</a><a href="/#calc">Калькулятор</a><a href="/news/">Новости</a><a href="/o-proekte/">О проекте</a><a href="/metodologiya/">Методология</a><a href="/redakciya/">Редакция</a><a href="/privacy/">Конфиденциальность</a><a href="mailto:info@podborvps.ru">info@podborvps.ru</a></div><p class="disc">ПодборVPS это информационно-справочный сервис для сравнения тарифов виртуальных серверов. Сайт не является продавцом услуг хостинга. Все товарные знаки принадлежат их правообладателям. Цены и характеристики носят ориентировочный характер, не являются публичной офертой и могут отличаться от актуальных, проверяйте условия на сайтах провайдеров. При переходе по ссылкам сервис может получать партнёрское вознаграждение. © 2026 ПодборVPS</p></div></footer>
+</body>
+</html>

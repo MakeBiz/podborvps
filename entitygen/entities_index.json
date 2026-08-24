@@ -1,0 +1,42 @@
+[
+ {
+  "slug": "vps-niderlandy",
+  "kind": "geo"
+ },
+ {
+  "slug": "vps-velikobritaniya",
+  "kind": "geo"
+ },
+ {
+  "slug": "vps-germaniya",
+  "kind": "geo"
+ },
+ {
+  "slug": "vps-singapur",
+  "kind": "geo"
+ },
+ {
+  "slug": "vps-turciya",
+  "kind": "geo"
+ },
+ {
+  "slug": "vps-kazahstan",
+  "kind": "geo"
+ },
+ {
+  "slug": "vps-dlya-vpn",
+  "kind": "uc"
+ },
+ {
+  "slug": "vps-dlya-telegram-bota",
+  "kind": "uc"
+ },
+ {
+  "slug": "deshevyy-vps",
+  "kind": "uc"
+ },
+ {
+  "slug": "vps-dlya-docker",
+  "kind": "uc"
+ }
+]
