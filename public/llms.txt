@@ -18,6 +18,9 @@
 - VPS для базы данных: https://podborvps.ru/vps-dlya-bazy-dannyh/
 - VPS для интернет-магазина: https://podborvps.ru/vps-dlya-internet-magazina/
 - VPS для AI и ML: https://podborvps.ru/vps-dlya-ai-ml/
+- VPS с Windows: https://podborvps.ru/vps-windows/
+- VPS для сайта: https://podborvps.ru/vps-dlya-sayta/
+- Аренда GPU-сервера: https://podborvps.ru/vps-gpu/
 
 ## Подборки по странам
 - VPS в Нидерландах: https://podborvps.ru/vps-niderlandy/

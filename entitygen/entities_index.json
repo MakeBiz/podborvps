@@ -74,5 +74,17 @@
  {
   "slug": "vps-dlya-ai-ml",
   "kind": "uc"
+ },
+ {
+  "slug": "vps-windows",
+  "kind": "uc"
+ },
+ {
+  "slug": "vps-dlya-sayta",
+  "kind": "uc"
+ },
+ {
+  "slug": "vps-gpu",
+  "kind": "uc"
  }
 ]
