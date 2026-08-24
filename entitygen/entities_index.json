@@ -38,5 +38,25 @@
  {
   "slug": "vps-dlya-docker",
   "kind": "uc"
+ },
+ {
+  "slug": "vps-dlya-1c-bitrix",
+  "kind": "uc"
+ },
+ {
+  "slug": "vps-dlya-igrovogo-servera",
+  "kind": "uc"
+ },
+ {
+  "slug": "vps-dlya-bazy-dannyh",
+  "kind": "uc"
+ },
+ {
+  "slug": "vps-dlya-internet-magazina",
+  "kind": "uc"
+ },
+ {
+  "slug": "vps-dlya-ai-ml",
+  "kind": "uc"
  }
 ]
