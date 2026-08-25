@@ -25,7 +25,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yastatic.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://mc.yandex.ru https://yastatic.net https://*.yandex.ru https://*.yandex.net; connect-src 'self' https://mc.yandex.ru https://yastatic.net https://*.yandex.ru https://*.yandex.net https://script.google.com https://script.googleusercontent.com; frame-src https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://yastatic.net https://vps-analytics.vercel.app; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https://mc.yandex.ru https://yastatic.net https://*.yandex.ru https://*.yandex.net; connect-src 'self' https://mc.yandex.ru https://yastatic.net https://*.yandex.ru https://*.yandex.net https://script.google.com https://script.googleusercontent.com https://vps-analytics.vercel.app; frame-src https://mc.yandex.ru; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
         }
       ]
     },
