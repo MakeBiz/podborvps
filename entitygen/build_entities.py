@@ -20,8 +20,15 @@ def wr(p,s):
 # ---- контент (гео + задачи) ----
 def geo(slug,country,title,desc,lead,paras,best,faq):
     return dict(kind="geo",slug=slug,country=country,title=title,desc=desc,lead=lead,paras=paras,best=best,faq=faq)
-def uc(slug,title,desc,lead,paras,cfg,faq):
-    return dict(kind="uc",slug=slug,title=title,desc=desc,lead=lead,paras=paras,cfg=cfg,faq=faq)
+def uc(slug,title,desc,lead,paras,cfg,faq,card_label=None):
+    return dict(kind="uc",slug=slug,title=title,desc=desc,lead=lead,paras=paras,cfg=cfg,faq=faq,card_label=card_label)
+
+def vps_seo(t):
+    # SEO: добавить кириллическую форму «(ВПС)» после первого латинского VPS, один раз.
+    # «впс» — крупнейший ключ (~85k показов/мес). Применяется только к <title>/<h1>/лиду,
+    # ссылки-якоря и схема используют чистый e["title"].
+    if "ВПС" in t: return t
+    return re.sub(r"\bVPS\b", "VPS (ВПС)", t, count=1)
 
 ENTITIES=[
  geo("vps-niderlandy","Нидерланды","VPS в Нидерландах",
@@ -200,6 +207,16 @@ ENTITIES=[
    "16–24 ГБ VRAM под инференс и генерацию (больше — под обучение), почасовая аренда под пиковые задачи; GPU-план — отдельно у провайдера.",
    [("Сколько VRAM нужно для нейросетей?","Для инференса и генерации изображений — 16–24 ГБ; для обучения крупных моделей нужно больше. Смотрите в первую очередь на объём видеопамяти."),
     ("Почасовая или помесячная аренда GPU?","Под разовые и пиковые задачи (обучение, рендер) выгоднее почасовая — платите за время. Под постоянный инференс — помесячно.")]),
+ uc("reyting-vps","Рейтинг и топ VPS хостингов",
+   "Рейтинг и топ VPS-хостингов по методологии подбора ПодборVPS: критерии оценки, сравнение провайдеров по цене, локациям, дискам и оплате. Подберите свой вариант в калькуляторе.",
+   "Собрали рейтинг VPS-хостингов по нашей методологии подбора: без проплаченных мест — провайдеры сравниваются по прозрачным критериям, а финальный выбор подстраивается под вашу задачу в калькуляторе.",
+   ["Единого «лучшего» VPS не существует: сервер под сайт, под игровой проект и под базу данных выбирают по разным критериям. Поэтому наш рейтинг — это не один список сверху вниз, а сравнение провайдеров по параметрам, которые важны именно для вашей задачи: цена входа, география дата-центров, тип дисков (NVMe), способы оплаты, наличие защиты от DDoS и поддержки.",
+    "Мы не продаём места в рейтинге: порядок в подборе задаётся соответствием вашему запросу, а не размером партнёрского вознаграждения. Как именно считается соответствие — описано в разделе Методология. Чтобы получить персональный топ под свою задачу, задайте параметры в калькуляторе."],
+   "Рейтинг формируется по критериям: цена входа, гео дата-центров, диски (NVMe), оплата, защита и поддержка. Персональный топ под вашу задачу — в калькуляторе; методика — на странице Методология.",
+   [("Как формируется рейтинг VPS?","По прозрачным критериям сравнения: цена входа, география, тип дисков, способы оплаты, защита и поддержка. Порядок в подборе зависит от соответствия вашему запросу, а не от партнёрской ставки."),
+    ("Какой VPS-хостинг лучший?","Зависит от задачи: под сайт, игровой сервер и базу данных подходят разные тарифы. Задайте задачу и ресурсы в калькуляторе — получите топ провайдеров именно под ваш случай."),
+    ("Можно ли доверять рейтингу?","Мы не продаём места в подборе: методика описана открыто на странице Методология, а цены и характеристики уточняйте на сайтах провайдеров.")],
+   card_label="Как мы составляем рейтинг"),
 ]
 
 # ---- шасси из privacy ----
@@ -219,7 +236,7 @@ DISC=('<p class="disc">ПодборVPS это информационно-спр�
 def build_page(e):
     slug=e["slug"]; url="https://podborvps.ru/%s/"%slug
     h=head
-    h=re.sub(r"<title>.*?</title>","<title>%s — ПодборVPS</title>"%html.escape(e["title"]),h,flags=re.S)
+    h=re.sub(r"<title>.*?</title>","<title>%s — ПодборVPS</title>"%html.escape(vps_seo(e["title"])),h,flags=re.S)
     h=re.sub(r'<meta name="description" content=".*?">','<meta name="description" content="%s">'%html.escape(e["desc"]),h,flags=re.S)
     h=re.sub(r'<link rel="canonical" href=".*?">','<link rel="canonical" href="%s">'%url,h,flags=re.S)
     h=re.sub(r'<meta property="og:title" content=".*?">','<meta property="og:title" content="%s">'%html.escape(e["title"]),h,flags=re.S)
@@ -238,9 +255,9 @@ def build_page(e):
     h=re.sub(r'<script type="application/ld\+json">.*?</script>','<script type="application/ld+json">%s</script>'%ld,h,flags=re.S,count=1)
     tag="Гео" if e["kind"]=="geo" else "Задача"
     crumbs='<div class="crumbs"><a href="/">Главная</a> → %s</div>'%html.escape(e["title"])
-    body='<article><div class="kicker"><span class="tag">%s</span></div><h1>%s</h1><p class="lead">%s</p>'%(tag,html.escape(e["title"]),html.escape(e["lead"]))
+    body='<article><div class="kicker"><span class="tag">%s</span></div><h1>%s</h1><p class="lead">%s</p>'%(tag,html.escape(vps_seo(e["title"])),html.escape(vps_seo(e["lead"])))
     for p in e["paras"]: body+="<p>%s</p>"%html.escape(p)
-    label="Подходит для" if e["kind"]=="geo" else "Рекомендуемая конфигурация"
+    label=e.get("card_label") or ("Подходит для" if e["kind"]=="geo" else "Рекомендуемая конфигурация")
     val=e["best"] if e["kind"]=="geo" else e["cfg"]
     body+='<div class="card"><h2>%s</h2><p style="margin:0">%s</p></div>'%(label,html.escape(val))
     body+='<h2>Частые вопросы</h2>'

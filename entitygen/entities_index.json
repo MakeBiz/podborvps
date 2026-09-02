@@ -86,5 +86,9 @@
  {
   "slug": "vps-gpu",
   "kind": "uc"
+ },
+ {
+  "slug": "reyting-vps",
+  "kind": "uc"
  }
 ]
