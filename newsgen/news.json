@@ -30,6 +30,15 @@
   ],
   "feed": [
     {
+      "slug": "timeweb-udvoenie-pervogo-popolneniya-makebizx2",
+      "id": "tw-makebizx2",
+      "tag": "Акции",
+      "date": "11 сентября 2026",
+      "iso": "2026-09-11",
+      "title": "Timeweb удваивает первое пополнение по промокоду Makebizx2",
+      "teaser": "Промокод Makebizx2 удваивает первое пополнение в Timeweb Cloud: сколько внесли, столько же добавят сверху. Особенно выгодно для старта на зарубежных локациях."
+    },
+    {
       "slug": "mezhregionalnye-cod-haby-30-40",
       "id": "cod-haby",
       "tag": "Инфраструктура",
