@@ -30,6 +30,15 @@
   ],
   "feed": [
     {
+      "slug": "clo-izolyaciya-diskovogo-trafika",
+      "id": "clo-disk-iso",
+      "tag": "Инфраструктура",
+      "date": "18 сентября 2026",
+      "iso": "2026-09-18",
+      "title": "CLO изолировал дисковый трафик и включил DPDK: меньше «шумных соседей»",
+      "teaser": "CLO обновил облачную платформу: дисковый трафик вынесен на отдельные интерфейсы, добавлены DPDK и свежие версии MySQL и PostgreSQL. Разбираем, что изоляция диска даёт при выборе сервера."
+    },
+    {
       "slug": "ovhcloud-podnimaet-ceny-defitsit-pamyati",
       "id": "ovhcloud-ceny",
       "tag": "Цены",
