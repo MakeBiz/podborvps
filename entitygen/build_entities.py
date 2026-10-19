@@ -233,7 +233,84 @@ DISC=('<p class="disc">ПодборVPS это информационно-спр�
  'носят ориентировочный характер, не являются публичной офертой и могут отличаться от актуальных, проверяйте условия на '
  'сайтах провайдеров. При переходе по ссылкам сервис может получать партнёрское вознаграждение. © 2026 ПодборVPS</p>')
 
+
+# ---- GEO-блоки (20.10.2026): короткий ответ, таблица сравнения из каталога, доп. FAQ ----
+import datetime
+_MON=["января","февраля","марта","апреля","мая","июня","июля","августа","сентября","октября","ноября","декабря"]
+_MON1=["январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"]
+_d=datetime.date.today(); TODAY="%d %s %d"%(_d.day,_MON[_d.month-1],_d.year); TODAY_ISO=_d.isoformat()
+MONTH_YEAR="%s %d"%(_MON1[_d.month-1],_d.year)
+
+def _catalog():
+    s=rd(os.path.join(PUB,"index.html")); out=[]
+    for line in re.findall(r"^\{id:'[^\n]*$",s,flags=re.M):
+        if "geoLabel:" not in line or "priceRub:" not in line: continue
+        if re.search(r"hidden:\s*true",line): continue
+        def g(k):
+            m=re.search(r"\b"+k+r":'([^']*)'",line); return m.group(1) if m else ""
+        def arr(k):
+            m=re.search(r"\b"+k+r":\[([^\]]*)\]",line); return re.findall(r"'([^']*)'",m.group(1)) if m else []
+        out.append(dict(id=g("id"),name=g("name"),geoLabel=g("geoLabel"),price=g("price"),
+            priceRub=int(re.search(r"priceRub:(\d+)",line).group(1)),geos=arr("geos"),pay=arr("pay"),tasks=arr("tasks"),tags=arr("tags")))
+    return out
+CAT=_catalog()
+_PAY={"rub":"карты РФ","foreign":"зарубежные карты","crypto":"криптовалюта"}
+def _pay(p): return ", ".join(_PAY[x] for x in ("rub","foreign","crypto") if x in p) or "уточняйте"
+def _feat(t, geoLabel):
+    skip=("оплата","россия","европа","сша","глобально")
+    for x in t:
+        if not any(x.lower().startswith(k) for k in skip) and x!=geoLabel: return x
+    return t[0] if t else ""
+def _pick(f):
+    rows=[c for c in CAT if (not f.get("task") or f["task"] in c["tasks"]) and (not f.get("geo") or f["geo"] in c["geos"])]
+    rows.sort(key=lambda c:(c["priceRub"],c["name"]))
+    return rows[:f.get("top",len(rows))]
+def _minrub(rows):
+    r=[c["priceRub"] for c in rows if "rub" in c["pay"]]; return min(r) if r else min(c["priceRub"] for c in rows)
+
+GEOX={
+ "vps-dlya-telegram-bota":dict(f=dict(task="bot",top=8),
+   answer=lambda rows:"Для Telegram-бота хватает VPS с 1 ядром и 1-2 ГБ памяти: такие тарифы стоят от %d ₽ в месяц у российских провайдеров. Важнее цены круглосуточный аптайм и постоянный IP для вебхука. Ниже %d провайдеров с тарифами под ботов, по возрастанию цены."%(_minrub(rows),len(rows)),
+   faq=[("Сколько стоит сервер для Telegram-бота?","Рабочий минимум под бота, 1 ядро и 1 ГБ памяти, стоит от {min} ₽ в месяц у российских провайдеров и от $2-3 у зарубежных. Под бота с базой данных и медиа закладывайте 2 ядра и 2 ГБ."),
+        ("Можно ли держать бота на бесплатном хостинге?","Для теста можно, для работы нет: бесплатные площадки усыпляют процесс, меняют IP и ограничивают время работы, и бот пропадает из сети. Недорогой VPS решает это за пару сотен рублей в месяц."),
+        ("Где разместить бота: в России или за рубежом?","Если пользователи в России, берите сервер в РФ: оплата рублями и минимальная задержка. Зарубежная локация нужна, если бот работает с иностранными API, которые недоступны из России.")]),
+ "deshevyy-vps":dict(f=dict(top=10),
+   answer=lambda rows:"Самый дешёвый рабочий VPS сейчас стоит от %d ₽ в месяц у российских провайдеров и от $2 у зарубежных. Минимальной конфигурации, 1 ядро и 1 ГБ памяти, хватает для бота, небольшого сайта или тестов. Ниже 10 самых доступных провайдеров из нашего каталога по стартовой цене."%_minrub(rows),
+   faq=[("Какой самый дешёвый VPS в России?","По нашему каталогу на {month} самые низкие стартовые цены у провайдеров из таблицы выше, от {min} ₽ в месяц. Цены меняются, проверяйте тариф на сайте провайдера перед оплатой."),
+        ("Что можно запустить на VPS за 150-200 ₽?","Телеграм-бота, небольшой сайт или блог, тестовый стенд разработчика, простой мониторинг. Для интернет-магазина и 1С таких ресурсов уже не хватит.")]),
+ "vps-dlya-sayta":dict(f=dict(task="site",top=8),
+   answer=lambda rows:"Для небольшого сайта или блога достаточно VPS с 1-2 ядрами и 2 ГБ памяти, это от %d ₽ в месяц. Магазину или порталу нужно 2-4 ядра и 4 ГБ. Для посетителей из России выбирайте сервер в РФ. Ниже %d провайдеров с тарифами под сайты, по возрастанию цены."%(_minrub(rows),len(rows)),
+   faq=[("Что лучше для сайта: хостинг или VPS?","Виртуальный хостинг дешевле и проще, но ресурсы делятся с соседями. VPS берут, когда сайту тесно на хостинге, нужен свой софт или стабильная скорость под нагрузкой."),
+        ("Сколько стоит VPS для сайта?","Небольшому сайту хватает тарифа от {min} ₽ в месяц. Магазину на 2-4 ядрах и 4 ГБ памяти рассчитывайте на 600-1500 ₽ в месяц в зависимости от провайдера.")]),
+ "reyting-vps":dict(f=dict(),
+   answer=lambda rows:"Мы сравниваем %d VPS-провайдеров по цене входа, географии дата-центров и способам оплаты. Самый низкий порог входа у российских провайдеров от %d ₽ в месяц. Лучший провайдер зависит от задачи, поэтому ниже полная таблица, а персональный топ даёт калькулятор."%(len(rows),_minrub(rows)),
+   faq=[("Какие VPS-провайдеры есть в рейтинге?","В таблице выше все {n} провайдеров нашего каталога на {month}: российские и зарубежные, с ценой входа, локациями и способами оплаты.")]),
+ "vps-evropa":dict(f=dict(geo="eu",top=10),
+   answer=lambda rows:"VPS в Европе (Германия, Нидерланды, Финляндия) можно арендовать и оплатить из России: часть провайдеров принимает карты РФ, тарифы от %d ₽ в месяц. Ниже %d провайдеров с европейскими локациями, по возрастанию цены, с колонкой способов оплаты."%(_minrub(rows),len(rows)),
+   faq=[("Как оплатить европейский VPS из России?","Выбирайте провайдеров, у которых в таблице указаны карты РФ: они принимают российские карты и рубли, а сервер стоит в Европе. Другой вариант, криптовалюта, если провайдер её принимает."),
+        ("Сколько стоит VPS в Европе?","Минимальные тарифы с европейской локацией стоят от {min} ₽ в месяц у провайдеров с оплатой картами РФ.")]),
+}
+
+def geo_extend(e):
+    x=GEOX.get(e["slug"])
+    if not x: return e,None
+    rows=_pick(x["f"])
+    e=dict(e); e["faq"]=list(e["faq"])+[(q,a.format(min=_minrub(rows),n=len(rows),month=MONTH_YEAR)) for q,a in x["faq"]]
+    return e,dict(answer=x["answer"](rows),rows=rows)
+
+def geo_answer(g):
+    return '<div class="card" style="border-left:4px solid #013CA4"><h2 style="margin-top:0">Коротко</h2><p style="margin:0">%s</p><p style="margin:10px 0 0;font-size:13px;color:#5B6B86">Данные обновлены: %s</p></div>'%(html.escape(g["answer"]),TODAY)
+
+def geo_table(g):
+    t='<h2>Сравнение провайдеров, %s</h2><div style="overflow-x:auto"><table style="width:100%%;border-collapse:collapse;font-size:14px">'%MONTH_YEAR
+    t+='<thead><tr>'+''.join('<th style="text-align:left;padding:8px;border-bottom:2px solid #D8E3F6">%s</th>'%h for h in ("Провайдер","Цена","Локации","Оплата","Особенность"))+'</tr></thead><tbody>'
+    for c in g["rows"]:
+        t+='<tr>'+''.join('<td style="padding:8px;border-bottom:1px solid #E4EAF2%s">%s</td>'%(";white-space:nowrap" if i==1 else "",html.escape(v)) for i,v in enumerate((c["name"],c["price"],c["geoLabel"],_pay(c["pay"]),_feat(c["tags"],c["geoLabel"]))))+'</tr>'
+    t+='</tbody></table></div><p style="font-size:13px;color:#5B6B86">Цены стартовые, по каталогу ПодборVPS на %s. Порядок по возрастанию цены. Перед оплатой проверяйте тариф на сайте провайдера.</p>'%TODAY
+    return t
+
 def build_page(e):
+    e,_geo=geo_extend(e)
     slug=e["slug"]; url="https://podborvps.ru/%s/"%slug
     h=head
     h=re.sub(r"<title>.*?</title>","<title>%s — ПодборVPS</title>"%html.escape(vps_seo(e["title"])),h,flags=re.S)
@@ -245,18 +322,22 @@ def build_page(e):
     graph=[
      {"@type":"WebPage","name":e["title"],"description":e["desc"],"url":url,"inLanguage":"ru-RU",
       "isPartOf":{"@type":"WebSite","name":"ПодборVPS","url":"https://podborvps.ru/"},
-      "publisher":{"@type":"Organization","name":"ПодборVPS","url":"https://podborvps.ru/"}},
+      "publisher":{"@type":"Organization","name":"ПодборVPS","url":"https://podborvps.ru/"},**({"dateModified":TODAY_ISO} if _geo else {})},
      {"@type":"BreadcrumbList","itemListElement":[
        {"@type":"ListItem","position":1,"name":"Главная","item":"https://podborvps.ru/"},
        {"@type":"ListItem","position":2,"name":e["title"],"item":url}]},
      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in e["faq"]]},
     ]
+    if _geo:
+        graph.append({"@type":"ItemList","name":"Сравнение провайдеров: "+e["title"],"itemListElement":[{"@type":"ListItem","position":i+1,"name":c["name"]} for i,c in enumerate(_geo["rows"])]})
     ld=json.dumps({"@context":"https://schema.org","@graph":graph},ensure_ascii=False)
     h=re.sub(r'<script type="application/ld\+json">.*?</script>','<script type="application/ld+json">%s</script>'%ld,h,flags=re.S,count=1)
     tag="Гео" if e["kind"]=="geo" else "Задача"
     crumbs='<div class="crumbs"><a href="/">Главная</a> → %s</div>'%html.escape(e["title"])
     body='<article><div class="kicker"><span class="tag">%s</span></div><h1>%s</h1><p class="lead">%s</p>'%(tag,html.escape(vps_seo(e["title"])),html.escape(vps_seo(e["lead"])))
+    if _geo: body=body.replace('<p class="lead">', geo_answer(_geo)+'<p class="lead">',1)
     for p in e["paras"]: body+="<p>%s</p>"%html.escape(p)
+    if _geo: body+=geo_table(_geo)
     label=e.get("card_label") or ("Подходит для" if e["kind"]=="geo" else "Рекомендуемая конфигурация")
     val=e["best"] if e["kind"]=="geo" else e["cfg"]
     body+='<div class="card"><h2>%s</h2><p style="margin:0">%s</p></div>'%(label,html.escape(val))
