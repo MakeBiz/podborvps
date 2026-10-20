@@ -30,6 +30,15 @@
   ],
   "feed": [
     {
+      "slug": "yandex-cloud-sboy-besplatno-do-31-oktyabrya-kuda-perenesti-server",
+      "id": "yc-sboy-oktyabr",
+      "tag": "Инфраструктура",
+      "date": "20 октября 2026",
+      "iso": "2026-10-20",
+      "title": "Сбой Yandex Cloud: бесплатно до 31 октября, с 1 ноября обычные счета. Куда перенести сервер",
+      "teaser": "После остановки ЦОД в Сасово и во Владимире и повреждений в Калуге Yandex Cloud работает с ограничениями. Сроки, счета, переезд к другим провайдерам и сколько стоит резервный VPS."
+    },
+    {
       "slug": "servery-cod-rossiya-podorozhali-vdvoe",
       "id": "servery-cod-2x",
       "tag": "Цены",
