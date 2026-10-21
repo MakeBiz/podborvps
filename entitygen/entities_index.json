@@ -90,5 +90,41 @@
  {
   "slug": "reyting-vps",
   "kind": "uc"
+ },
+ {
+  "slug": "vps-do-300-rubley",
+  "kind": "price"
+ },
+ {
+  "slug": "vps-do-500-rubley",
+  "kind": "price"
+ },
+ {
+  "slug": "vps-do-5-dollarov",
+  "kind": "price"
+ },
+ {
+  "slug": "vps-oplata-kartoy-rf",
+  "kind": "price"
+ },
+ {
+  "slug": "vps-oplata-kriptovalyutoy",
+  "kind": "price"
+ },
+ {
+  "slug": "timeweb-ili-adminvps",
+  "kind": "cmp"
+ },
+ {
+  "slug": "adminvps-ili-aeza",
+  "kind": "cmp"
+ },
+ {
+  "slug": "aeza-ili-fornex",
+  "kind": "cmp"
+ },
+ {
+  "slug": "timeweb-ili-aeza",
+  "kind": "cmp"
  }
 ]

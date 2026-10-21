@@ -42,3 +42,16 @@
 - VPS в Европе: https://podborvps.ru/vps-evropa/
 - VPS в Финляндии: https://podborvps.ru/vps-finlyandiya/
 - VPS в США: https://podborvps.ru/vps-ssha/
+
+## Подборки по бюджету и оплате
+- VPS до 300 ₽ в месяц: https://podborvps.ru/vps-do-300-rubley/
+- VPS до 500 ₽ в месяц: https://podborvps.ru/vps-do-500-rubley/
+- Зарубежный VPS до $5 в месяц: https://podborvps.ru/vps-do-5-dollarov/
+- VPS с оплатой картой РФ: https://podborvps.ru/vps-oplata-kartoy-rf/
+- VPS с оплатой криптовалютой: https://podborvps.ru/vps-oplata-kriptovalyutoy/
+
+## Сравнения провайдеров
+- Timeweb Cloud или AdminVPS: https://podborvps.ru/timeweb-ili-adminvps/
+- AdminVPS или Aéza: https://podborvps.ru/adminvps-ili-aeza/
+- Aéza или Fornex: https://podborvps.ru/aeza-ili-fornex/
+- Timeweb Cloud или Aéza: https://podborvps.ru/timeweb-ili-aeza/
