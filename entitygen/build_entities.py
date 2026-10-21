@@ -379,7 +379,7 @@ def build_page(e):
      {"@type":"FAQPage","mainEntity":[{"@type":"Question","name":q,"acceptedAnswer":{"@type":"Answer","text":a}} for q,a in e["faq"]]},
     ]
     if _geo:
-        graph.append({"@type":"ItemList","name":"Сравнение провайдеров: "+e["title"],"itemListElement":[{"@type":"ListItem","position":i+1,"name":c["name"]} for i,c in enumerate(_geo["rows"])]})
+        graph.append({"@type":"ItemList","name":"Сравнение провайдеров: "+e["title"],"itemListElement":[{"@type":"ListItem","position":i+1,"name":c["name"],"item":{"@type":"Product","name":"VPS "+c["name"],"category":"VPS","offers":{"@type":"Offer","price":c["priceRub"],"priceCurrency":"RUB","description":c["price"]}}} for i,c in enumerate(_geo["rows"])]})
     ld=json.dumps({"@context":"https://schema.org","@graph":graph},ensure_ascii=False)
     h=re.sub(r'<script type="application/ld\+json">.*?</script>','<script type="application/ld+json">%s</script>'%ld,h,flags=re.S,count=1)
     tag="Гео" if e["kind"]=="geo" else "Задача"

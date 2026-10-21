@@ -113,13 +113,16 @@ main = (
 open(os.path.join(PUB, "news", "index.html"), "w", encoding="utf-8").write(head_hdr + main + tail)
 
 # ---------- 3. sitemap ----------
+# lastmod страниц с ценами = дата сверки цен (var PRICES_CHECKED в public/index.html), 21.10.2026
+_pm = re.search(r"var PRICES_CHECKED\s*=\s*'(\d{4}-\d\d-\d\d)'", open(os.path.join(PUB, "index.html"), encoding="utf-8").read())
+_PRICES = _pm.group(1) if _pm else None
 rows = [("https://podborvps.ru/", "1.0"), ("https://podborvps.ru/news/", "0.9")]
 DATES = {"https://podborvps.ru/": "2026-08-03", "https://podborvps.ru/news/": max(n["iso"] for n in all_items)}
 xml = ['<?xml version="1.0" encoding="UTF-8"?>',
        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
 def row(loc, lm, pr):
     return '  <url><loc>%s</loc><lastmod>%s</lastmod><priority>%s</priority></url>' % (loc, lm, pr)
-xml.append(row("https://podborvps.ru/", "2026-08-06", "1.0"))
+xml.append(row("https://podborvps.ru/", _PRICES or "2026-08-06", "1.0"))
 xml.append(row("https://podborvps.ru/news/", max(n["iso"] for n in all_items), "0.9"))
 xml.append(row("https://podborvps.ru/akcii-promokody-vps/", "2026-08-06", "0.8"))
 xml.append(row("https://podborvps.ru/privacy/", "2026-08-06", "0.3"))
@@ -131,7 +134,7 @@ xml.append(row("https://podborvps.ru/redakciya/", "2026-08-24", "0.4"))
 _ep=os.path.join(ROOT,"entitygen","entities_index.json")
 if os.path.exists(_ep):
     for _e in json.load(open(_ep,encoding="utf-8")):
-        xml.append(row("https://podborvps.ru/%s/"%_e["slug"], "2026-08-24", "0.7" if _e["kind"]=="geo" else "0.6"))
+        xml.append(row("https://podborvps.ru/%s/"%_e["slug"], _PRICES or "2026-08-24", "0.7" if _e["kind"]=="geo" else "0.6"))
 for n in all_items:  # закреплённые + лента (новее выше внутри ленты уже отсортировано)
     xml.append(row("https://podborvps.ru/news/" + n["slug"] + "/", n["iso"], "0.8"))
 xml.append("</urlset>")
