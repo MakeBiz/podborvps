@@ -30,6 +30,15 @@
   ],
   "feed": [
     {
+      "slug": "vps-niderlandy-ili-germaniya-skolko-stoit",
+      "id": "nl-de-ceny",
+      "tag": "Цены",
+      "date": "23 октября 2026",
+      "iso": "2026-10-23",
+      "title": "VPS в Нидерландах или Германии: сколько стоит один и тот же сервер в двух странах",
+      "teaser": "Сервер с 2 ядрами и 4 ГБ у AdminVPS стоит 799 ₽ и в Нидерландах, и в Германии, у Fornex цена тоже одна на обе страны. Разница в канале, задержках и аудитории, а не в цене."
+    },
+    {
       "slug": "yandex-cloud-sboy-besplatno-do-31-oktyabrya-kuda-perenesti-server",
       "id": "yc-sboy-oktyabr",
       "tag": "Инфраструктура",
