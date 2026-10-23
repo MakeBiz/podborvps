@@ -87,10 +87,14 @@ if d.get("source", {}).get("url"):
 # CTA провайдера (если новость про конкретного провайдера)
 if d.get("provider", {}).get("url"):
     pr = d["provider"]; utm = pr.get("utm", "news_"+d["id"])
-    link = pr["url"] + ("&" if "?" in pr["url"] else "?") + "utm_source=podborvps&utm_medium=referral&utm_campaign=%s&utm_content=%s" % (utm, pr["id"])
+    # is*hosting и другие noUtm-партнёрки ломаются от лишних параметров: ссылка уходит как есть
+    if pr.get("noUtm") or "ishosting.io/affiliate/" in pr["url"]:
+        link = pr["url"]
+    else:
+        link = pr["url"] + ("&" if "?" in pr["url"] else "?") + "utm_source=podborvps&utm_medium=referral&utm_campaign=%s&utm_content=%s" % (utm, pr["id"])
     body += ('<div class="cta"><h2>%s</h2><div class="ctabtns">'
              '<a class="btn" href="%s" target="_blank" rel="sponsored nofollow noopener" '
-             'onclick="try{ym(%s,\'reachGoal\',\'provider_click\',{provider:\'%s\',place:\'news\'});ym(%s,\'reachGoal\',\'go_%s\')}catch(e){}">'
+             'onclick="try{ym(%s,\'reachGoal\',\'provider_click\',{provider:\'%s\',place:\'news\',page:location.pathname});ym(%s,\'reachGoal\',\'go_%s\')}catch(e){}">'
              'Перейти на сайт провайдера <span>→</span></a></div>'
              '<p class="ctanote">Переход по кнопке партнёрский: сервис может получить вознаграждение, для вас цена не меняется.</p></div>'
              % (html.escape(pr["name"]), html.escape(link), COUNTER, pr["id"], COUNTER, pr["id"]))

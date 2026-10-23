@@ -487,7 +487,7 @@ def cmp_table(e,g):
     t+='<thead><tr>'+th%"Параметр"+th%html.escape(A["name"])+th%html.escape(B["name"])+'</tr></thead><tbody>'
     for r in rows: t+='<tr>'+''.join(td%html.escape(v) for v in r)+'</tr>'
     t+='</tbody></table></div><p style="font-size:13px;color:#5B6B86">Данные каталога ПодборVPS, цены сверены с сайтами провайдеров %s. Перед оплатой проверяйте тариф на сайте провайдера.</p>'%PRICES_DMY
-    btn='<a class="btn" href="%s" target="_blank" rel="sponsored nofollow noopener" onclick="try{ym(111248718,\'reachGoal\',\'provider_click\',{provider:\'%s\',place:\'entity\'})}catch(e){}">Перейти на сайт %s →</a>'
+    btn='<a class="btn" href="%s" target="_blank" rel="sponsored nofollow noopener" onclick="try{ym(111248718,\'reachGoal\',\'provider_click\',{provider:\'%s\',place:\'entity\',page:location.pathname})}catch(e){}">Перейти на сайт %s →</a>'
     t+=('<div class="cta"><h2>Посмотреть тарифы у провайдера</h2><p>Актуальные цены и конфигурации на сайтах провайдеров. Если не уверены в выборе, задайте задачу и бюджет в калькуляторе.</p><div class="ctabtns">'
         +''.join(btn%(html.escape(_utm(c,e["slug"])),c["id"],html.escape(c["name"])) for c in (A,B))
         +'<a class="btn ghost" href="/#calc">Калькулятор подбора</a></div></div>')

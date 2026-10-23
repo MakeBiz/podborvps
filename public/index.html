@@ -292,6 +292,7 @@ var NEWS = [
 var CFG = { heroStyle:'split', show3d:true, showCookie:true, resultsCount:10, defaultTask:'' };
 var state = { task:null, ram:2, cpu:1, geo:'any', pay:null, budget:0, results:null, cookieSeen:true, modal:null, menu:false };
 function goal(name, params){
+if (name === 'provider_click') { params = params || {}; if (!params.page) params.page = location.pathname; }
 try { if (typeof window.ym !== 'undefined') window.ym(111248718, 'reachGoal', name, params || {}); } catch(e){}
 try { if (name === 'provider_click' && typeof PV !== 'undefined') PV.click(params); } catch(e){}
 }

@@ -31,4 +31,28 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: YandexAdditional
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
 Sitemap: https://podborvps.ru/sitemap.xml
